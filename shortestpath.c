@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <limits.h>
 #include "shortestpath.h"
 #include "heap.h"
+
+#define INF 2147483647 
 
 void graphShortestPath(Graph *g, char *name1, char *name2)
 {
@@ -11,17 +12,17 @@ void graphShortestPath(Graph *g, char *name1, char *name2)
     Vertex *dst = graphFindVertex(g, name2);
     if (src == NULL || dst == NULL)
     {
-        return; /* spec does not define output for a nonexistent vertex; print nothing */
+        return;
     }
 
-    /* initialize scratch fields */
+
     LLNode *vn = g->vertices->head;
     while (vn != NULL)
     {
         Vertex *v = (Vertex *)vn->data;
-        v->dist = INT_MAX;
+        v->dist = INF;
         v->pred = NULL;
-        v->visited = 0; /* reused here to mean "finalized" */
+        v->visited = 0;
         vn = vn->next;
     }
 
@@ -37,13 +38,13 @@ void graphShortestPath(Graph *g, char *name1, char *name2)
 
         if (u->visited)
         {
-            continue; /* stale entry (a shorter distance was already finalized) */
+            continue;
         }
         u->visited = 1;
 
         if (u == dst)
         {
-            break; /* shortest distance to destination finalized */
+            break;
         }
 
         LLNode *en = u->edges->head;
@@ -66,14 +67,12 @@ void graphShortestPath(Graph *g, char *name1, char *name2)
     }
     free(pq);
 
-    if (dst->dist == INT_MAX)
+    if (dst->dist == INF)
     {
-        return; /* spec does not define output for an unreachable destination; print nothing */
+        return;
     }
 
-    /* reconstruct the path by walking predecessors back to the source.
-       Path length can never exceed the number of vertices, so that's
-       exactly how big this array needs to be. */
+
     Vertex **path = (Vertex **)malloc(sizeof(Vertex *) * g->vertexCount);
     int len = 0;
     Vertex *cur = dst;
