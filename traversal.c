@@ -17,14 +17,6 @@ void resetVisited(Graph *g)
     }
 }
 
-/* ---------------- BFS ---------------- */
-/*
- * Standard BFS: a vertex is marked visited the moment it is enqueued
- * (not when it is dequeued). Since each vertex's edge list is kept
- * sorted ascending by neighbor name, neighbors are naturally enqueued
- * in lexicographic order, which satisfies the "go to the lexicographically
- * smaller vertex first" tie-breaking rule.
- */
 void graphBFS(Graph *g, char *start)
 {
     Vertex *startV = graphFindVertex(g, start);
@@ -60,14 +52,6 @@ void graphBFS(Graph *g, char *start)
     free(q);
 }
 
-/* ---------------- DFS ---------------- */
-/*
- * Iterative, stack-based DFS. A vertex is marked visited the moment it is
- * PUSHED onto the stack (not when popped). To make the LIFO stack pop
- * neighbors in ascending (lexicographic) order, neighbors are pushed in
- * descending order, so the alphabetically smallest ends up on top.
- * This exactly reproduces the sample DFS traces in the specification.
- */
 void graphDFS(Graph *g, char *start)
 {
     Vertex *startV = graphFindVertex(g, start);
@@ -87,9 +71,6 @@ void graphDFS(Graph *g, char *start)
         Vertex *cur = pop(s);
         printf("%s\n", cur->name);
 
-        /* Collect this vertex's unvisited neighbors (already in
-           ascending order) into a plain array, so we can push them
-           back onto the stack in descending order afterward. */
         Vertex *toPush[MAX_NEIGHBORS];
         int n = 0;
 
@@ -100,7 +81,7 @@ void graphDFS(Graph *g, char *start)
             Vertex *nb = graphFindVertex(g, e->neighbor);
             if (nb != NULL && !nb->visited)
             {
-                nb->visited = 1; /* mark visited at push time to avoid duplicates */
+                nb->visited = 1;
                 if (n < MAX_NEIGHBORS)
                 {
                     toPush[n] = nb;
@@ -119,7 +100,6 @@ void graphDFS(Graph *g, char *start)
     free(s);
 }
 
-/* ---------------- Path Check ---------------- */
 int graphPathCheck(Graph *g, char *name1, char *name2)
 {
     Vertex *v1 = graphFindVertex(g, name1);
