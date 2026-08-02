@@ -182,7 +182,11 @@ int graphGetDegree(Graph *g, char *name)
 
 int graphEdgeCheck(Graph *g, char *name1, char *name2)
 {
-    return graphFindEdge(g, name1, name2) != NULL ? 1 : 0;
+    if (graphFindEdge(g, name1, name2)!=NULL){
+    return 1;
+    }else{
+    return 0;
+}
 }
 
 void graphPrint(Graph *g)
