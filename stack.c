@@ -1,4 +1,4 @@
-#include <stddef.h>
+#include <stdlib.h>
 #include "stack.h"
 
 void createStack(Stack *S)
@@ -37,11 +37,6 @@ void push(Stack *S, Vertex *x)
         S->data[S->top] = x;
         S->top++;
     }
-    /* If full, the push is silently ignored rather than printed:
-       the spec requires minimalist output (no text besides the
-       required command output), and MAX is sized well above any
-       vertex count DFS could ever need (each vertex is pushed at
-       most once), so this branch should never actually be hit. */
 }
 
 Vertex *pop(Stack *S)
