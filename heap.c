@@ -1,4 +1,3 @@
-#include <stddef.h>
 #include "heap.h"
 
 void createHeap(Heap *h)
@@ -44,7 +43,7 @@ void *heapPop(Heap *h)
 {
     if (h->size == 0)
     {
-        return NULL;
+        return (void *)0;
     }
 
     void *result = h->data[0].item;
