@@ -1,11 +1,3 @@
-/*
- * main.c
- * CCDSALG MCO2 - Graph Implementation
- * Reads commands from stdin in a loop and prints only the required
- * output (no prompts), as mandated by the specification.
- *
- * No goto statements are used, per the specification.
- */
 #include <stdio.h>
 #include "graph.h"
 #include "traversal.h"
@@ -24,7 +16,7 @@ int main(void) {
 
     while (running && scanf("%d", &cmd) == 1) {
         switch (cmd) {
-            case 1: /* Add Vertex */
+            case 1: // Add Vertex
                 if (scanf("%299s", name1) != 1) {
                     running = 0;
                     break;
@@ -32,7 +24,7 @@ int main(void) {
                 graphAddVertex(g, name1);
                 break;
 
-            case 2: /* Add Edge */
+            case 2: // Add Edge
                 if (scanf("%299s %299s %d", name1, name2, &weight) != 3) {
                     running = 0;
                     break;
@@ -40,7 +32,7 @@ int main(void) {
                 graphAddEdge(g, name1, name2, weight);
                 break;
 
-            case 3: /* Get Degree */
+            case 3: //get degree
                 if (scanf("%299s", name1) != 1) {
                     running = 0;
                     break;
@@ -48,7 +40,7 @@ int main(void) {
                 printf("%d\n", graphGetDegree(g, name1));
                 break;
 
-            case 4: /* Edge Check */
+            case 4: // edge chekc
                 if (scanf("%299s %299s", name1, name2) != 2) {
                     running = 0;
                     break;
@@ -56,7 +48,7 @@ int main(void) {
                 printf("%d\n", graphEdgeCheck(g, name1, name2));
                 break;
 
-            case 5: /* BFS */
+            case 5: //bfs
                 if (scanf("%299s", name1) != 1) {
                     running = 0;
                     break;
@@ -64,7 +56,7 @@ int main(void) {
                 graphBFS(g, name1);
                 break;
 
-            case 6: /* DFS */
+            case 6: //dfs
                 if (scanf("%299s", name1) != 1) {
                     running = 0;
                     break;
@@ -72,7 +64,7 @@ int main(void) {
                 graphDFS(g, name1);
                 break;
 
-            case 7: /* Path Check */
+            case 7: //path chekc
                 if (scanf("%299s %299s", name1, name2) != 2) {
                     running = 0;
                     break;
@@ -80,11 +72,11 @@ int main(void) {
                 printf("%d\n", graphPathCheck(g, name1, name2));
                 break;
 
-            case 8: /* MST */
+            case 8: //mst
                 graphPrintMST(g);
                 break;
 
-            case 9: /* BONUS: Shortest Path */
+            case 9: //shorest path
                 if (scanf("%299s %299s", name1, name2) != 2) {
                     running = 0;
                     break;
@@ -92,11 +84,11 @@ int main(void) {
                 graphShortestPath(g, name1, name2);
                 break;
 
-            case 10: /* Print Graph */
+            case 10: //printgraph
                 graphPrint(g);
                 break;
 
-            case 11: /* End program */
+            case 11: //byebye
                 running = 0;
                 break;
 
