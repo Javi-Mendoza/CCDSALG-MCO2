@@ -1,4 +1,4 @@
-#include<stdlib.h>
+#include <stdlib.h>
 #include "heap.h"
 
 void createHeap(Heap *h)
