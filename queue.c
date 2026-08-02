@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include "queue.h"
 
 void createQueue(Queue *q)
@@ -39,7 +40,7 @@ void enqueue(Queue *q, Vertex *x)
 
 Vertex *dequeue(Queue *q)
 {
-    Vertex *returnVertex = (void *)0;
+    Vertex *returnVertex = NULL;
 
     if (!queueEmpty(q))
     {
@@ -52,7 +53,7 @@ Vertex *dequeue(Queue *q)
 
 Vertex *queueHead(Queue *q)
 {
-    Vertex *returnVertex = (void *)0;
+    Vertex *returnVertex = NULL;
 
     if (!queueEmpty(q))
     {
@@ -64,7 +65,7 @@ Vertex *queueHead(Queue *q)
 
 Vertex *queueTail(Queue *q)
 {
-    Vertex *returnVertex = (void *)0;
+    Vertex *returnVertex = NULL;
 
     if (!queueEmpty(q))
     {
