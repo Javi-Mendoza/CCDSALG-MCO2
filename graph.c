@@ -13,8 +13,8 @@ Graph *createGraph(void)
 
 Vertex *graphFindVertex(Graph *g, char *name)
 {
-    /* Simple linear search: walk the vertex list node by node and
-       compare names until we find a match (or reach the end). */
+    
+     //linear search and strcmp
     LLNode *node = g->vertices->head;
     while (node != NULL)
     {
@@ -28,9 +28,8 @@ Vertex *graphFindVertex(Graph *g, char *name)
     return NULL;
 }
 
-/* Inserts a new vertex into the vertex list, keeping the list sorted
-   alphabetically by name. Walks the list to find the right spot,
-   then splices in a new node there. */
+
+//inserts new vertex into list and keeps list sorted alphabeticaly
 void insertVertexSorted(Graph *g, Vertex *v)
 {
     LinkedList *list = g->vertices;
@@ -41,7 +40,7 @@ void insertVertexSorted(Graph *g, Vertex *v)
 
     if (list->head == NULL || strcmp(v->name, ((Vertex *)list->head->data)->name) < 0)
     {
-        /* new vertex belongs at the very front of the list */
+       //put new vertex infront of list
         newNode->next = list->head;
         list->head = newNode;
         if (list->tail == NULL)
@@ -66,8 +65,8 @@ void insertVertexSorted(Graph *g, Vertex *v)
     list->size++;
 }
 
-/* Same idea as insertVertexSorted, but for one vertex's edge list,
-   sorted alphabetically by neighbor name. */
+
+//same with insert vertex sorted but for edge
 void insertEdgeSorted(LinkedList *list, Edge *e)
 {
     LLNode *newNode = (LLNode *)malloc(sizeof(LLNode));
@@ -125,8 +124,6 @@ Edge *graphFindEdge(Graph *g, char *from, char *to)
     {
         return NULL;
     }
-    /* Same idea as graphFindVertex: walk this vertex's edge list
-       and compare neighbor names one by one. */
     LLNode *node = v->edges->head;
     while (node != NULL)
     {
@@ -145,12 +142,12 @@ void addDirectedEdge(Graph *g, char *from, char *to, int weight)
     Vertex *v = graphFindVertex(g, from);
     if (v == NULL)
     {
-        return; /* both endpoints must already exist per command 1 */
+        return;
     }
     Edge *existing = graphFindEdge(g, from, to);
     if (existing != NULL)
     {
-        existing->weight = weight; /* re-adding an edge updates its weight */
+        existing->weight = weight; //readding edge updates weight
         return;
     }
     Edge *e = (Edge *)malloc(sizeof(Edge));
@@ -164,7 +161,7 @@ void graphAddEdge(Graph *g, char *name1, char *name2, int weight)
 {
     if (graphFindVertex(g, name1) == NULL || graphFindVertex(g, name2) == NULL)
     {
-        return; /* spec's format assumes both vertices were already added via command 1 */
+        return;
     }
     addDirectedEdge(g, name1, name2, weight);
     addDirectedEdge(g, name2, name1, weight);
@@ -218,7 +215,6 @@ void graphPrint(Graph *g)
         while (en != NULL)
         {
             Edge *e = (Edge *)en->data;
-            /* only print once per undirected pair: u lexicographically before v */
             if (strcmp(v->name, e->neighbor) < 0)
             {
                 printf("    (%s, %s, %d),\n", v->name, e->neighbor, e->weight);
@@ -237,8 +233,6 @@ void graphFree(Graph *g)
         return;
     }
 
-    /* Walk every vertex, free everything it owns (its edge list and
-       itself), then free the vertex list's own nodes at the end. */
     LLNode *vn = g->vertices->head;
     while (vn != NULL)
     {
