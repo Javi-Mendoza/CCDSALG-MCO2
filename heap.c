@@ -15,16 +15,14 @@ void heapPush(Heap *h, void *item, int priority)
 {
     if (h->size >= HEAP_MAX_SIZE)
     {
-        return; /* full: silently ignored, should never happen at this project's scale */
+        return;
     }
 
-    /* put the new entry at the end of the array */
     int i = h->size;
     h->data[i].item = item;
     h->data[i].priority = priority;
     h->size++;
 
-    /* bubble it up while it has a smaller priority than its parent */
     while (i > 0)
     {
         int parent = (i - 1) / 2;
@@ -51,11 +49,9 @@ void *heapPop(Heap *h)
 
     void *result = h->data[0].item;
 
-    /* move the last entry to the root, then shrink */
     h->size--;
     h->data[0] = h->data[h->size];
 
-    /* bubble the new root down to wherever it belongs */
     int i = 0;
     while (1)
     {
