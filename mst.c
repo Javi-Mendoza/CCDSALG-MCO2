@@ -4,23 +4,18 @@
 #include "mst.h"
 #include "heap.h"
 
-/* A frontier candidate: an edge from a vertex already in the MST tree
-   ('from') to a vertex not yet in the tree ('to'), with its weight. */
 typedef struct {
     char from[MAX_NAME_LEN + 1];
     char to[MAX_NAME_LEN + 1];
     int weight;
 } FrontierEdge;
 
-/* A finalized MST edge, always stored with u lexicographically before v,
-   so results can be printed in the required canonical order. */
 typedef struct {
     char u[MAX_NAME_LEN + 1];
     char v[MAX_NAME_LEN + 1];
     int weight;
 } MstEdge;
 
-/* Sorts MST edges by u then v (simple insertion sort; result sets are tiny). */
 void sortMSTEdges(MstEdge edges[], int n)
 {
     int i, j;
@@ -50,7 +45,6 @@ void graphPrintMST(Graph *g)
         return;
     }
 
-    /* reset visited flags: used here to mean "already in the MST" */
     LLNode *vn = g->vertices->head;
     while (vn != NULL)
     {
@@ -58,22 +52,16 @@ void graphPrintMST(Graph *g)
         vn = vn->next;
     }
 
-    /* Start Prim's from the lexicographically smallest vertex (the
-       vertices list is already kept sorted, so that's simply the head). */
     Vertex *startV = (Vertex *)g->vertices->head->data;
     startV->visited = 1;
 
     Heap *pq = (Heap *)malloc(sizeof(Heap));
     createHeap(pq);
 
-    /* The MST can have at most (vertexCount - 1) edges, so we only
-       ever need to allocate exactly that many slots -- one malloc,
-       sized to what we actually need, no resizing later. */
     MstEdge *result = (MstEdge *)malloc(sizeof(MstEdge) * g->vertexCount);
     int resultCount = 0;
     int totalWeight = 0;
 
-    /* push all edges out of the starting vertex */
     LLNode *en = startV->edges->head;
     while (en != NULL)
     {
@@ -95,7 +83,7 @@ void graphPrintMST(Graph *g)
         if (toV == NULL || toV->visited)
         {
             free(fe);
-            continue; /* both endpoints already in tree, would form a cycle */
+            continue;
         }
 
         toV->visited = 1;
@@ -135,7 +123,6 @@ void graphPrintMST(Graph *g)
         free(fe);
     }
 
-    /* drain any remaining frontier edges (in case graph is disconnected) */
     while (!heapIsEmpty(pq))
     {
         FrontierEdge *fe = (FrontierEdge *)heapPop(pq);
@@ -152,7 +139,7 @@ void graphPrintMST(Graph *g)
     while (vn != NULL)
     {
         Vertex *v = (Vertex *)vn->data;
-        if (v->visited) /* only vertices reachable from the start are spanned */
+        if (v->visited) 
         {
             if (!first)
             {
